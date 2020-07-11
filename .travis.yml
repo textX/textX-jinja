@@ -14,7 +14,7 @@ before_install:
     - pip install -e Arpeggio
     - git clone --depth=1 --branch=master git://github.com/textX/textX.git
     - pip install -e textX
-    - cd textX-jinja2
+    - cd textX-jinja
 
 install:
     - ./install-test.sh
