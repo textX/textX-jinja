@@ -25,13 +25,20 @@ set of template-based files from textX models.
 
    ```python
    from textx import generator
+   from textxjinja import textx_jinja_generator
    
    @generator('mylang', 'mytarget')
-   def mygenerator():
-       return textx_generator()
+   def mygenerator(metamodel, model, output_path, overwrite, debug):
+       # template directory
+       template_folder = os.path.join(os.path.dirname(__file__), 'templates')
+
+       # create config dict with all variables that should be accessible
+       # by templates
+       config = {'some_variable': 'some value'}
+
+       # call the generator
+       textx_jinja_generator(template_folder, output_path, config, overwrite)
    ```
-   
-   and delegate your generator call to `textx_generator` function.
    
 1. Install your project (recommended is the usage of Python virtual environment):
 
@@ -45,7 +52,11 @@ set of template-based files from textX models.
    $ textx generate ...
    ```
   
-This generator will use the template folder for rendering files using Jinja
+The generator will use the template folder for rendering files using Jinja
 template engine. All files from the template folder which are not Jinja
 templates (don't end with `.jinja`' extensions) will be copied over to the
 target folder unchanged (variable substitutions in file names still apply).
+
+As a full example of its usage see [startproject generator in textX-dev
+project](https://github.com/textX/textX-dev/blob/master/textxdev/scaffold/__init__.py#L19).
+Templates for the `startproject` command are [here](https://github.com/textX/textX-dev/tree/master/textxdev/scaffold/template).
