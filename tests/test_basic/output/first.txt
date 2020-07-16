@@ -1,6 +1,0 @@
-This is a simple template.
-
-Check variables from context:
-root = -root-
-first = This is first
-second = This is second
