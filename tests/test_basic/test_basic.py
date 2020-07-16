@@ -20,7 +20,7 @@ def test_basic():
     # Remove output folder
     try:
         shutil.rmtree(output_folder)
-    except IOError:
+    except OSError:
         pass
 
     # Prepare config
