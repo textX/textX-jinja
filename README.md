@@ -1,5 +1,6 @@
 [![Build status](https://travis-ci.org/textX/textX-jinja.svg?branch=master)](https://travis-ci.org/textX/textX-jinja)
 [![Code test coverage](https://coveralls.io/repos/github/textX/textX-jinja/badge.svg?branch=master)](https://coveralls.io/github/textX/textX-jinja?branch=master)
+[![Documentation Status](https://img.shields.io/badge/docs-latest-green.svg)](http://textx.github.io/textX/latest/jinja/)
 
 
 # textX-jinja
