@@ -47,7 +47,6 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False):
     env = Environment(loader=FileSystemLoader(searchpath=templates_path),
                       trim_blocks=True, lstrip_blocks=True)
     file_count = FileCount()
-    config['project_name'] = os.path.basename(os.path.abspath(target_path))
 
     click.echo("\nStarted generating files in {}".format(target_path))
     for root, dirs, files in os.walk(templates_path):
