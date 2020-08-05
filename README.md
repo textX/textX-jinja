@@ -41,9 +41,16 @@ set of template-based files from textX models.
        # create config dict with all variables that should be accessible
        # by templates
        config = {'some_variable': 'some value'}
+       
+       # Optionally provide Jinja filters
+       def striptabs(s):
+           return re.sub(r'^[ \t]+', '', s, flags=re.M)
+       filters = {
+           'striptabs': striptabs
+       }
 
        # call the generator
-       textx_jinja_generator(template_folder, output_path, config, overwrite)
+       textx_jinja_generator(template_folder, output_path, config, overwrite, filters)
    ```
    
 1. Install your project (recommended is the usage of Python virtual environment):

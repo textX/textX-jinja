@@ -31,7 +31,8 @@ class FileCount:
         return '{}/{}/{}'.format(self.created, self.overwritten, self.skipped)
 
 
-def textx_jinja_generator(templates_path, target_path, config, overwrite=False):
+def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
+                          filters=None):
     """
     Generates a set of files using Jinja templates.
     """
@@ -43,9 +44,13 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False):
         config (dict): A config contains any data necessary
             for rendering files using Jinja engine.
         overwrite (bool): If the target files should be overwritten.
+        filters(dict): Optional Jinja filters.
     """
     env = Environment(loader=FileSystemLoader(searchpath=templates_path),
                       trim_blocks=True, lstrip_blocks=True)
+    if filters:
+        env.filters.update(filters)
+
     file_count = FileCount()
 
     click.echo("\nStarted generating files in {}".format(target_path))
