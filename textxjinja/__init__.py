@@ -46,65 +46,101 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
         overwrite (bool): If the target files should be overwritten.
         filters(dict): Optional Jinja filters.
     """
-    env = Environment(loader=FileSystemLoader(searchpath=templates_path),
-                      trim_blocks=True, lstrip_blocks=True)
-    if filters:
-        env.filters.update(filters)
+    def eval_file_name(file_name):
+        """
+        Replaces all `__<var>__` if `var` is in config dict.
+        Strips .jinja extension.
+        Raises SkipFile if file shouldn't be processed.
+        """
+        # Replace placeholders in the target file name.
+        placeholders = placeholder_re.findall(file_name)
+
+        for placeholder in placeholders:
+            ph_value = config.get(placeholder.strip('_'))
+            if ph_value is False:
+                raise SkipFile
+            elif ph_value is True:
+                file_name = file_name.replace(placeholder, '')
+            elif ph_value is not None:
+                file_name = file_name.replace(placeholder, ph_value)
+
+        if file_name.endswith('.jinja'):
+            file_name = '.'.join(file_name.split('.')[:-1])
+        return file_name
+
+    def generate_file(src_rel_file, src_file, target_file):
+        """
+        Generate a single target file from the given source file.
+        """
+        if overwrite or not os.path.exists(target_file):
+
+            if os.path.exists(target_file):
+                click.echo('Overwriting {}'.format(target_file))
+                file_count.overwritten += 1
+            else:
+                click.echo('Creating {}'.format(target_file))
+                file_count.created += 1
+
+            if src_file.endswith('.jinja'):
+                # Render using Jinja template
+                with open(target_file, 'w') as f:
+                    f.write(
+                        env.get_template(src_rel_file).render(**config))
+            else:
+                # Just copy
+                if not src_file == target_file:
+                    shutil.copy(src_file, target_file)
+
+        else:
+            click.echo('Skipping {}'.format(target_file))
+            file_count.skipped += 1
+
 
     file_count = FileCount()
 
-    click.echo("\nStarted generating files in {}".format(target_path))
-    for root, dirs, files in os.walk(templates_path):
-        for f in files:
-            src_file = os.path.join(root, f)
-            src_rel_path = os.path.relpath(src_file, templates_path)
-            target_file = os.path.join(target_path, src_rel_path)
+    if os.path.isfile(templates_path):
+        search_path = os.path.dirname(templates_path)
+        env = Environment(loader=FileSystemLoader(searchpath=search_path),
+                        trim_blocks=True, lstrip_blocks=True)
+        if filters:
+            env.filters.update(filters)
 
-            # Replace placeholders in the target file name.
-            placeholders = placeholder_re.findall(target_file)
-            try:
-                for placeholder in placeholders:
-                    ph_value = config.get(placeholder.strip('_'))
-                    if ph_value is False:
-                        raise SkipFile
-                    elif ph_value is True:
-                        target_file = target_file.replace(placeholder, '')
-                    elif ph_value is not None:
-                        target_file = target_file.replace(placeholder, ph_value)
-            except SkipFile:
-                continue
+        click.echo("\nStarted generating file {}".format(templates_path))
+        src_file = templates_path
+        src_rel_file = os.path.basename(templates_path)
 
-            # Strip `jinja` extension from target path.
-            if target_file.endswith('.jinja'):
-                target_file = '.'.join(target_file.split('.')[:-1])
+        try:
+            target_file = eval_file_name(src_file)
+            generate_file(src_rel_file, src_file, target_file)
+        except SkipFile:
+            click.echo("\nFile skipped due to configuration.")
+    else:
+        search_path = templates_path
+        env = Environment(loader=FileSystemLoader(searchpath=search_path),
+                        trim_blocks=True, lstrip_blocks=True)
+        if filters:
+            env.filters.update(filters)
 
-            # Create necessary folders.
-            try:
-                os.makedirs(os.path.dirname(target_file))
-            except FileExistsError:
-                pass
+        click.echo("\nStarted generating files in {}".format(target_path))
+        for root, dirs, files in os.walk(templates_path):
+            for f in files:
+                src_file = os.path.join(root, f)
+                src_rel_file = os.path.relpath(src_file, templates_path)
+                target_file = os.path.join(target_path, src_rel_file)
 
-            if overwrite or not os.path.exists(target_file):
+                try:
+                    # Replace placeholders in the target file name.
+                    target_file = eval_file_name(target_file)
+                except SkipFile:
+                    continue
 
-                if os.path.exists(target_file):
-                    click.echo('Overwriting {}'.format(target_file))
-                    file_count.overwritten += 1
-                else:
-                    click.echo('Creating {}'.format(target_file))
-                    file_count.created += 1
+                # Create necessary folders.
+                try:
+                    os.makedirs(os.path.dirname(target_file))
+                except FileExistsError:
+                    pass
 
-                if src_file.endswith('.jinja'):
-                    # Render using Jinja template
-                    with open(target_file, 'w') as f:
-                        f.write(
-                            env.get_template(src_rel_path).render(**config))
-                else:
-                    # Just copy
-                    shutil.copy(src_file, target_file)
-
-            else:
-                click.echo('Skipping {}'.format(target_file))
-                file_count.skipped += 1
+                generate_file(src_rel_file, src_file, target_file)
 
     click.echo('Done. Files created/overwritten/skipped = {}'
                .format(file_count))
