@@ -105,12 +105,14 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
         if filters:
             env.filters.update(filters)
 
-        click.echo("\nStarted generating file {}".format(templates_path))
         src_file = templates_path
         src_rel_file = os.path.basename(templates_path)
 
         try:
-            target_file = eval_file_name(src_file)
+            if not os.path.isdir(target_path):
+                target_file = eval_file_name(target_path)
+            else:
+                target_file = os.path.join(target_path, eval_file_name(src_rel_file))
             generate_file(src_rel_file, src_file, target_file)
         except SkipFile:
             click.echo("\nFile skipped due to configuration.")
