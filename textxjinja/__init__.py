@@ -95,13 +95,12 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
             click.echo('Skipping {}'.format(target_file))
             file_count.skipped += 1
 
-
     file_count = FileCount()
 
     if os.path.isfile(templates_path):
         search_path = os.path.dirname(templates_path)
         env = Environment(loader=FileSystemLoader(searchpath=search_path),
-                        trim_blocks=True, lstrip_blocks=True)
+                          trim_blocks=True, lstrip_blocks=True)
         if filters:
             env.filters.update(filters)
 
@@ -119,7 +118,7 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
     else:
         search_path = templates_path
         env = Environment(loader=FileSystemLoader(searchpath=search_path),
-                        trim_blocks=True, lstrip_blocks=True)
+                          trim_blocks=True, lstrip_blocks=True)
         if filters:
             env.filters.update(filters)
 

@@ -11,6 +11,7 @@ class Model:
     second = "This is second"
     some_list = [1, 2, 3]
 
+
 this_folder = os.path.dirname(__file__)
 template_file = os.path.join(this_folder, 'first.txt.jinja')
 
