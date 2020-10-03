@@ -15,13 +15,23 @@ please take a look at related PRs and issues and see if the change affects you.
 ## [Unreleased]
 
 ### Added
+- Support for single template file and output filename instead of path
+  ([824618c6c], [2bbdf05a])
+- Support for jinja filters [350df6b1f]
 
 ### Fixed
+- Removed `project_name` from config dict ([2f82d94c7])
 
 ### Changed
 
 
-[Unreleased]: https://github.com/CHANGEME/textX-jinja/commits/master
+## [0.1.0]
+
+- Initial release
+
+
+[Unreleased]: https://github.com/textX/textX-jinja/compare/0.1.0...HEAD
+[0.1.0]: https://github.com/textX/textX-jinja/tree/0.1.0
 
 
 [keepachangelog]: https://keepachangelog.com/
