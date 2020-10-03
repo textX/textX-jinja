@@ -16,11 +16,14 @@ please take a look at related PRs and issues and see if the change affects you.
 
 ### Added
 - Support for single template file and output filename instead of path
-  ([824618c6c], [2bbdf05a])
-- Support for jinja filters [350df6b1f]
+  ([824618c6c](https://github.com/textX/textX-jinja/commit/824618c),
+  [2bbdf05a](https://github.com/igordejanovic/textX-jinja/commit/2bbdf05))
+- Support for jinja filters
+  ([350df6b1f](https://github.com/igordejanovic/textX-jinja/commit/350df6b))
 
 ### Fixed
-- Removed `project_name` from config dict ([2f82d94c7])
+- Removed `project_name` from config dict
+  ([2f82d94c7](https://github.com/igordejanovic/textX-jinja/commit/2f82d94))
 
 ### Changed
 
