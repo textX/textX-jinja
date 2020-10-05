@@ -15,6 +15,13 @@ please take a look at related PRs and issues and see if the change affects you.
 ## [Unreleased]
 
 ### Added
+### Fixed
+### Changed
+
+
+## [0.2.0] (Released: 2020-10-05)
+
+### Added
 - Support for single template file and output filename instead of path
   ([824618c6c](https://github.com/textX/textX-jinja/commit/824618c),
   [2bbdf05a](https://github.com/igordejanovic/textX-jinja/commit/2bbdf05))
@@ -24,8 +31,6 @@ please take a look at related PRs and issues and see if the change affects you.
 ### Fixed
 - Removed `project_name` from config dict
   ([2f82d94c7](https://github.com/igordejanovic/textX-jinja/commit/2f82d94))
-
-### Changed
 
 
 ## [0.1.0]
