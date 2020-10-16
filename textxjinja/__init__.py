@@ -92,7 +92,8 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
                     shutil.copy(src_file, target_file)
 
         else:
-            click.echo('Skipping {}'.format(target_file))
+            click.echo(click.style('-- NOT overwriting: ', fg='red', bold=True), nl=False)
+            click.echo(target_file)
             file_count.skipped += 1
 
     file_count = FileCount()
