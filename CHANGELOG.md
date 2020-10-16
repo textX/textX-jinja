@@ -19,6 +19,7 @@ please take a look at related PRs and issues and see if the change affects you.
 ### Changed
 
   - Make warning about not overwriting generated file more visible
+    ([7a06fd7543f98](https://github.com/textx/textX-jinja/commit/7a06fd7))
 
 
 ## [0.2.0] (Released: 2020-10-05)
