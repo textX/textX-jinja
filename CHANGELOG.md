@@ -14,8 +14,9 @@ please take a look at related PRs and issues and see if the change affects you.
 
 ## [Unreleased]
 
-### Added
 ### Fixed
+  - Added `click` dependency.
+
 ### Changed
 
   - Make warning about not overwriting generated file more visible
