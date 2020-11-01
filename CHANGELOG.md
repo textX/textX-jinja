@@ -13,6 +13,11 @@ reason for the major version increase so when upgrading between major versions
 please take a look at related PRs and issues and see if the change affects you.
 
 ## [Unreleased]
+### Added
+### Fixed
+### Changed
+
+## [0.2.1] (Released: 2020-11-01)
 
 ### Fixed
   - Added `click` dependency.
@@ -42,7 +47,9 @@ please take a look at related PRs and issues and see if the change affects you.
 - Initial release
 
 
-[Unreleased]: https://github.com/textX/textX-jinja/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/textX/textX-jinja/compare/0.2.1...HEAD
+[0.2.1]: https://github.com/textX/textX-jinja/compare/0.2.0...0.2.1
+[0.2.0]: https://github.com/textX/textX-jinja/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/textX/textX-jinja/tree/0.1.0
 
 
