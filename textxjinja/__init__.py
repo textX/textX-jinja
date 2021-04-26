@@ -68,8 +68,9 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
                     if isinstance(ph_value, str):
                         raise TypeError
                     files = {}
+                    map_names = config['map_names'] if 'map_names' in config else str
                     for ph in ph_value:
-                        f_name = file_name.replace(placeholder, str(ph))
+                        f_name = file_name.replace(placeholder, map_names(ph))
                         if f_name.endswith('.jinja'):
                             f_name = '.'.join(f_name.split('.')[:-1])
                         files[f_name] = ph
