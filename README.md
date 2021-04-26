@@ -21,10 +21,9 @@ set of template-based files from textX models.
    be replaced by the value of the variable from the generator context. If the
    variable is iterable, a file will be created for each object. In that case,
    the value for substitution in the file name will be created by function
-   `map_names`, if given, or `str` of the object itself. The object will be
-   available in the template under the name `obj`(support for iterables is still
-   WIP!). If the variable is of `bool` type the file will be skipped if the
-   variable value is `False`.
+   `map_names`(still WIP!), if given, or `str` of the object itself. The object
+   will be available in the template under the name `obj`. If the variable is of
+   `bool` type the file will be skipped if the variable value is `False`.
 
 1. In your textX project register a generator (see
    [registration](http://textx.github.io/textX/stable/registration/)).

@@ -54,6 +54,7 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
         """
         # Replace placeholders in the target file name.
         placeholders = placeholder_re.findall(file_name)
+        files = None
 
         for placeholder in placeholders:
             ph_value = config.get(placeholder.strip('_'))
@@ -62,10 +63,24 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
             elif ph_value is True:
                 file_name = file_name.replace(placeholder, '')
             elif ph_value is not None:
-                file_name = file_name.replace(placeholder, ph_value)
+                try:
+                    iter(ph_value)
+                    if isinstance(ph_value, str):
+                        raise TypeError
+                    files = {}
+                    for ph in ph_value:
+                        f_name = file_name.replace(placeholder, str(ph))
+                        if f_name.endswith('.jinja'):
+                            f_name = '.'.join(f_name.split('.')[:-1])
+                        files[f_name] = ph
+                except TypeError:
+                    file_name = file_name.replace(placeholder, ph_value)
 
         if file_name.endswith('.jinja'):
             file_name = '.'.join(file_name.split('.')[:-1])
+
+        if files is not None:
+            return files
         return file_name
 
     def generate_file(src_rel_file, src_file, target_file):
@@ -136,13 +151,24 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
                 except SkipFile:
                     continue
 
-                # Create necessary folders.
-                try:
-                    os.makedirs(os.path.dirname(target_file))
-                except FileExistsError:
-                    pass
+                # If target_file is dictionary generate file for each key-value pair.
+                if isinstance(target_file, dict):
+                    try:
+                        os.makedirs(os.path.dirname(list(target_file)[0]))
+                    except FileExistsError:
+                        pass
 
-                generate_file(src_rel_file, src_file, target_file)
+                    for f_name in target_file:
+                        config['obj'] = target_file[f_name]
+                        generate_file(src_rel_file, src_file, f_name)
+                else:
+                    # Create necessary folders.
+                    try:
+                        os.makedirs(os.path.dirname(target_file))
+                    except FileExistsError:
+                        pass
+
+                    generate_file(src_rel_file, src_file, target_file)
 
     click.echo('Done. Files created/overwritten/skipped = {}'
                .format(file_count))

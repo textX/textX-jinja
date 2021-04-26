@@ -13,9 +13,16 @@ reason for the major version increase so when upgrading between major versions
 please take a look at related PRs and issues and see if the change affects you.
 
 ## [Unreleased]
+
 ### Added
+  - Support for model iterables in filenames [#1]. Thanks balsa-sarenac@GitHub.
+
 ### Fixed
+
 ### Changed
+
+
+[#1]: https://github.com/textX/textX-jinja/pull/1
 
 ## [0.2.1] (Released: 2020-11-01)
 
