@@ -22,7 +22,10 @@ please take a look at related PRs and issues and see if the change affects you.
 ### Fixed
 
 ### Changed
-
+  - Changed parameter name in `textx_jinja_generator` - `config->context` **(BIC)**.
+  - Mapping support added in [#2] changed to use additional param `transform_names`
+    instead of `context`. Also, name transformation is applied to non-iterable
+    objects.
 
 [#1]: https://github.com/textX/textX-jinja/pull/1
 [#2]: https://github.com/textX/textX-jinja/pull/2

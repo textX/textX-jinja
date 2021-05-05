@@ -31,8 +31,8 @@ class FileCount:
         return '{}/{}/{}'.format(self.created, self.overwritten, self.skipped)
 
 
-def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
-                          filters=None):
+def textx_jinja_generator(templates_path, target_path, context, overwrite=False,
+                          filters=None, transform_names=None):
     """
     Generates a set of files using Jinja templates.
     """
@@ -41,23 +41,29 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
     Args:
         templates_path (str): A path to templates.
         target_path (str): The path where files should be generated.
-        config (dict): A config contains any data necessary
+        context (dict): A context contains any data necessary
             for rendering files using Jinja engine.
         overwrite (bool): If the target files should be overwritten.
         filters(dict): Optional Jinja filters.
+        transform_names(callable or None): If given, used to transform resolved
+            placeholders in file names. The function accepts a single parameter
+            and should return a string. It should default to `str(param)` in case
+            no other transformation could be provided.
+
     """
     def eval_file_name(file_name):
         """
-        Replaces all `__<var>__` if `var` is in config dict.
+        Replaces all `__<var>__` if `var` is in context dict.
         Strips .jinja extension.
         Raises SkipFile if file shouldn't be processed.
         """
         # Replace placeholders in the target file name.
         placeholders = placeholder_re.findall(file_name)
         files = None
+        tran_names = str if transform_names is None else transform_names
 
         for placeholder in placeholders:
-            ph_value = config.get(placeholder.strip('_'))
+            ph_value = context.get(placeholder.strip('_'))
             if ph_value is False:
                 raise SkipFile
             elif ph_value is True:
@@ -68,14 +74,13 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
                     if isinstance(ph_value, str):
                         raise TypeError
                     files = {}
-                    map_names = config['map_names'] if 'map_names' in config else str
                     for ph in ph_value:
-                        f_name = file_name.replace(placeholder, map_names(ph))
+                        f_name = file_name.replace(placeholder, tran_names(ph))
                         if f_name.endswith('.jinja'):
                             f_name = '.'.join(f_name.split('.')[:-1])
                         files[f_name] = ph
                 except TypeError:
-                    file_name = file_name.replace(placeholder, ph_value)
+                    file_name = file_name.replace(placeholder, tran_names(ph_value))
 
         if file_name.endswith('.jinja'):
             file_name = '.'.join(file_name.split('.')[:-1])
@@ -101,7 +106,7 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
                 # Render using Jinja template
                 with open(target_file, 'w') as f:
                     f.write(
-                        env.get_template(src_rel_file).render(**config))
+                        env.get_template(src_rel_file).render(**context))
             else:
                 # Just copy
                 if not src_file == target_file:
@@ -160,7 +165,7 @@ def textx_jinja_generator(templates_path, target_path, config, overwrite=False,
                         pass
 
                     for f_name in target_file:
-                        config['obj'] = target_file[f_name]
+                        context['obj'] = target_file[f_name]
                         generate_file(src_rel_file, src_file, f_name)
                 else:
                     # Create necessary folders.

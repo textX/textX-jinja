@@ -1,12 +1,13 @@
 """
-Test map_names function generating file names when iterable variable is in filename.
+Test tranform_names function generating file names when iterable
+variable is in filename.
 """
 import os
 import shutil
 from textxjinja import textx_jinja_generator
 
 
-def map_names(var):
+def transform_names(var):
     return '.test_{}'.format(var)
 
 
@@ -21,13 +22,13 @@ def test_iterable():
     except OSError:
         pass
 
-    # Prepare config
-    config = {}
-    config['vars'] = ['first', 'second']
-    config['map_names'] = map_names
+    # Prepare context
+    context = {}
+    context['vars'] = ['first', 'second']
 
     # Generate
-    textx_jinja_generator(template_folder, output_folder, config, overwrite=True)
+    textx_jinja_generator(template_folder, output_folder, context,
+                          overwrite=True, transform_names=transform_names)
 
     # Assert both files are present
     first = os.path.join(output_folder, '.test_first.cf')
