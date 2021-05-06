@@ -15,6 +15,8 @@ please take a look at related PRs and issues and see if the change affects you.
 ## [Unreleased]
 
 ### Added
+  - Support for mapping function for model iterables in filenames [#2]. Thanks
+    balsa-sarenac@GitHub.
   - Support for model iterables in filenames [#1]. Thanks balsa-sarenac@GitHub.
 
 ### Fixed
@@ -23,6 +25,7 @@ please take a look at related PRs and issues and see if the change affects you.
 
 
 [#1]: https://github.com/textX/textX-jinja/pull/1
+[#2]: https://github.com/textX/textX-jinja/pull/2
 
 ## [0.2.1] (Released: 2020-11-01)
 
