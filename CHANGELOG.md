@@ -20,6 +20,7 @@ please take a look at related PRs and issues and see if the change affects you.
   - Support for model iterables in filenames [#1]. Thanks balsa-sarenac@GitHub.
 
 ### Fixed
+  - Generating folder structure on Windows [#3]. Thanks balsa-sarenac@GitHub.
 
 ### Changed
   - Changed parameter name in `textx_jinja_generator` - `config->context` **(BIC)**.
@@ -29,6 +30,7 @@ please take a look at related PRs and issues and see if the change affects you.
 
 [#1]: https://github.com/textX/textX-jinja/pull/1
 [#2]: https://github.com/textX/textX-jinja/pull/2
+[#3]: https://github.com/textX/textX-jinja/pull/3
 
 ## [0.2.1] (Released: 2020-11-01)
 
