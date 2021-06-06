@@ -149,6 +149,7 @@ def textx_jinja_generator(templates_path, target_path, context, overwrite=False,
             for f in files:
                 src_file = os.path.join(root, f)
                 src_rel_file = os.path.relpath(src_file, templates_path)
+                src_rel_file = src_rel_file.replace('\\', '/')
                 target_file = os.path.join(target_path, src_rel_file)
 
                 try:
