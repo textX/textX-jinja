@@ -5,7 +5,7 @@ import click
 from jinja2 import Environment, FileSystemLoader
 
 
-__version__ = "0.3.0"
+__version__ = "0.4.0.dev"
 
 
 # Compatibility with Python 2.7
