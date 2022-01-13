@@ -64,7 +64,8 @@ please take a look at related PRs and issues and see if the change affects you.
 - Initial release
 
 
-[Unreleased]: https://github.com/textX/textX-jinja/compare/0.2.1...HEAD
+[Unreleased]: https://github.com/textX/textX-jinja/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/textX/textX-jinja/compare/0.2.1...0.3.0
 [0.2.1]: https://github.com/textX/textX-jinja/compare/0.2.0...0.2.1
 [0.2.0]: https://github.com/textX/textX-jinja/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/textX/textX-jinja/tree/0.1.0
