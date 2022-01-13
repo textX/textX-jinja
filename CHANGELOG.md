@@ -14,6 +14,8 @@ please take a look at related PRs and issues and see if the change affects you.
 
 ## [Unreleased]
 
+## [0.3.0] (Released: 2022-01-13)
+
 ### Added
   - Support for mapping function for model iterables in filenames [#2]. Thanks
     balsa-sarenac@GitHub.
