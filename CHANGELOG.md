@@ -14,6 +14,9 @@ please take a look at related PRs and issues and see if the change affects you.
 
 ## [Unreleased]
 
+### Changed
+- Removed click dependency. All output goes through logging.
+
 ## [0.3.0] (Released: 2022-01-13)
 
 ### Added

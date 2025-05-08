@@ -1,12 +1,13 @@
 import os
 import re
 import shutil
-import click
+import logging
 from jinja2 import Environment, FileSystemLoader
 
 
 __version__ = "0.4.0.dev"
 
+logger = logging.getLogger(__name__)
 
 # Compatibility with Python 2.7
 try:
@@ -96,10 +97,10 @@ def textx_jinja_generator(templates_path, target_path, context, overwrite=False,
         if overwrite or not os.path.exists(target_file):
 
             if os.path.exists(target_file):
-                click.echo('Overwriting {}'.format(target_file))
+                logger.info('Overwriting %s', target_file)
                 file_count.overwritten += 1
             else:
-                click.echo('Creating {}'.format(target_file))
+                logger.info('Creating %s', target_file)
                 file_count.created += 1
 
             if src_file.endswith('.jinja'):
@@ -113,8 +114,7 @@ def textx_jinja_generator(templates_path, target_path, context, overwrite=False,
                     shutil.copy(src_file, target_file)
 
         else:
-            click.echo(click.style('-- NOT overwriting: ', fg='red', bold=True), nl=False)
-            click.echo(target_file)
+            logger.info('-- ***NOT*** overwriting: %s', target_file)
             file_count.skipped += 1
 
     file_count = FileCount()
@@ -136,7 +136,8 @@ def textx_jinja_generator(templates_path, target_path, context, overwrite=False,
                 target_file = os.path.join(target_path, eval_file_name(src_rel_file))
             generate_file(src_rel_file, src_file, target_file)
         except SkipFile:
-            click.echo("\nFile skipped due to configuration.")
+            pass
+            logger.info("File skipped due to configuration.")
     else:
         search_path = templates_path
         env = Environment(loader=FileSystemLoader(searchpath=search_path),
@@ -144,7 +145,7 @@ def textx_jinja_generator(templates_path, target_path, context, overwrite=False,
         if filters:
             env.filters.update(filters)
 
-        click.echo("\nStarted generating files in {}".format(target_path))
+        logger.info("Started generating files in %s", target_path)
         for root, dirs, files in os.walk(templates_path):
             for f in files:
                 src_file = os.path.join(root, f)
@@ -177,5 +178,4 @@ def textx_jinja_generator(templates_path, target_path, context, overwrite=False,
 
                     generate_file(src_rel_file, src_file, target_file)
 
-    click.echo('Done. Files created/overwritten/skipped = {}'
-               .format(file_count))
+    logger.info('Done. Files created/overwritten/skipped = %s', file_count)
